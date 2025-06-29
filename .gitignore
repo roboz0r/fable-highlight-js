@@ -1,0 +1,7 @@
+bin/
+obj/
+*.user
+node_modules/
+
+.fake
+*.fs.js
