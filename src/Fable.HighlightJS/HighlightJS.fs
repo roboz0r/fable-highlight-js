@@ -28,7 +28,6 @@ type Record<'K, 'V> with
             ]
         |> unbox
 
-type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 type RegExp = System.Text.RegularExpressions.Regex
 
@@ -81,7 +80,7 @@ module HighlightJS =
         [<Obsolete("use `higlight(code, {lang: ..., ignoreIllegals: ...})`")>]
         abstract highlight: languageName: string * code: string * ?ignoreIllegals: bool -> HighlightResult
 
-        abstract highlightAuto: code: string * ?languageSubset: ResizeArray<string> -> AutoHighlightResult
+        abstract highlightAuto: code: string * ?languageSubset: array<string> -> AutoHighlightResult
         abstract highlightBlock: element: HTMLElement -> unit
         abstract highlightElement: element: HTMLElement -> unit
         abstract configure: options: HLJSOptions -> unit
@@ -90,8 +89,8 @@ module HighlightJS =
         abstract highlightAll: unit -> unit
         abstract registerLanguage: languageName: string * language: LanguageFn -> unit
         abstract unregisterLanguage: languageName: string -> unit
-        abstract listLanguages: unit -> ResizeArray<string>
-        abstract registerAliases: aliasList: U2<string, ResizeArray<string>> * p1: {| languageName: string |} -> unit
+        abstract listLanguages: unit -> array<string>
+        abstract registerAliases: aliasList: U2<string, array<string>> * p1: {| languageName: string |} -> unit
         abstract getLanguage: languageName: string -> Language option
         abstract autoDetection: languageName: string -> bool
         abstract ``inherit``: original: 'T * [<ParamArray>] args: Record<string, obj option>[] -> 'T
@@ -232,7 +231,7 @@ module HighlightJS =
     type HLJSOptions
         [<ParamObject; Emit("$0")>]
         (
-            ?languages: ResizeArray<string>,
+            ?languages: array<string>,
             ?noHighlightRe: RegExp,
             ?languageDetectRe: RegExp,
             ?classPrefix: string,
@@ -244,7 +243,7 @@ module HighlightJS =
         member val languageDetectRe: RegExp = jsNative with get, set
         member val classPrefix: string = jsNative with get, set
         member val cssSelector: string = jsNative with get, set
-        member val languages: ResizeArray<string> option = jsNative with get, set
+        member val languages: array<string> option = jsNative with get, set
         member val __emitter: EmitterConstructor = jsNative with get, set
         member val ignoreUnescapedHTML: bool option = jsNative with get, set
         member val throwUnescapedHTML: bool option = jsNative with get, set
@@ -280,18 +279,17 @@ module HighlightJS =
         abstract name: string option with get, set
         abstract unicodeRegex: bool option with get, set
         abstract rawDefinition: (unit -> Language) option with get, set
-        abstract aliases: ResizeArray<string> option with get, set
+        abstract aliases: array<string> option with get, set
         abstract disableAutodetect: bool option with get, set
-        abstract contains: ResizeArray<Mode> with get, set
+        abstract contains: array<Mode> with get, set
         abstract case_insensitive: bool option with get, set
 
-        abstract keywords:
-            U3<string, ResizeArray<string>, Record<string, U3<string, ResizeArray<string>, RegExp>>> option with get, set
+        abstract keywords: U3<string, array<string>, Record<string, U3<string, array<string>, RegExp>>> option with get, set
 
         abstract isCompiled: bool option with get, set
         abstract exports: obj option with get, set
         abstract classNameAliases: Record<string, string> option with get, set
-        abstract compilerExtensions: ResizeArray<CompilerExt> option with get, set
+        abstract compilerExtensions: array<CompilerExt> option with get, set
         abstract supersetOf: string option with get, set
 
     [<AllowNullLiteral>]
@@ -324,7 +322,7 @@ module HighlightJS =
         inherit LanguageDetail
         inherit CompiledMode
         abstract isCompiled: bool with get, set
-        abstract contains: ResizeArray<CompiledMode> with get, set
+        abstract contains: array<CompiledMode> with get, set
         abstract keywords: Record<string, obj option> with get, set
 
     [<AllowNullLiteral>]
@@ -335,9 +333,9 @@ module HighlightJS =
 
     [<AllowNullLiteral>]
     type ModeDetails =
-        abstract ``begin``: U3<RegExp, string, ResizeArray<U2<RegExp, string>>> option with get, set
-        abstract ``match``: U3<RegExp, string, ResizeArray<U2<RegExp, string>>> option with get, set
-        abstract ``end``: U3<RegExp, string, ResizeArray<U2<RegExp, string>>> option with get, set
+        abstract ``begin``: U3<RegExp, string, array<U2<RegExp, string>>> option with get, set
+        abstract ``match``: U3<RegExp, string, array<U2<RegExp, string>>> option with get, set
+        abstract ``end``: U3<RegExp, string, array<U2<RegExp, string>>> option with get, set
 
         [<Obsolete("Deprecated in favor of `scope`")>]
         abstract className: string option with get, set
@@ -345,7 +343,7 @@ module HighlightJS =
         abstract scope: U2<string, Record<float, string>> option with get, set
         abstract beginScope: U2<string, Record<float, string>> option with get, set
         abstract endScope: U2<string, Record<float, string>> option with get, set
-        abstract contains: ResizeArray<U2<Mode, string>> option with get, set
+        abstract contains: array<U2<Mode, string>> option with get, set
         abstract endsParent: bool option with get, set
         abstract endsWithParent: bool option with get, set
         abstract endSameAsBegin: bool option with get, set
@@ -358,13 +356,13 @@ module HighlightJS =
         abstract parent: Mode option with get, set
         abstract starts: Mode option with get, set
         abstract lexemes: U2<string, RegExp> option with get, set
-        abstract keywords: U3<string, ResizeArray<string>, Record<string, U2<string, ResizeArray<string>>>> option with get, set
+        abstract keywords: U3<string, array<string>, Record<string, U2<string, array<string>>>> option with get, set
         abstract beginKeywords: string option with get, set
         abstract relevance: float option with get, set
-        abstract illegal: U3<string, RegExp, Array<U2<string, RegExp>>> option with get, set
-        abstract variants: ResizeArray<Mode> option with get, set
-        abstract cachedVariants: ResizeArray<Mode> option with get, set
-        abstract subLanguage: U2<string, ResizeArray<string>> option with get, set
+        abstract illegal: U3<string, RegExp, array<U2<string, RegExp>>> option with get, set
+        abstract variants: array<Mode> option with get, set
+        abstract cachedVariants: array<Mode> option with get, set
+        abstract subLanguage: U2<string, array<string>> option with get, set
         abstract isCompiled: bool option with get, set
         abstract label: string option with get, set
 
@@ -373,7 +371,7 @@ module HighlightJS =
     type PublicApiRegex =
         abstract concat: [<ParamArray>] args: U2<RegExp, string>[] -> string
         abstract lookahead: re: U2<RegExp, string> -> string
-        abstract either: [<ParamArray>] args: U2<ResizeArray<U2<RegExp, string>>, obj * RegexEitherOptions> -> string
+        abstract either: [<ParamArray>] args: U2<array<U2<RegExp, string>>, obj * RegexEitherOptions> -> string
         abstract optional: re: U2<RegExp, string> -> string
         abstract anyNumberOfTimes: re: U2<RegExp, string> -> string
 
