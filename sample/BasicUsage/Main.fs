@@ -1,5 +1,6 @@
 ﻿open HighlightJS
 
+// Add a comment
 let html = hljs.highlightAuto("<h1>Hello World!</h1>").value
 let html2 = hljs.highlight("<h1>Hello World!</h1>", HighlightOptions("xml")).value
 printfn "%s" html
