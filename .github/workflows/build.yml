@@ -27,16 +27,16 @@ jobs:
       - name: Build via Bash
         if: runner.os != 'Windows'
         run: |
-          dotnet build
-          dotnet test
+          dotnet tool restore
+          dotnet fable .\test\Tests.fsproj -o .\test\build\ --run node .\test\build\Program.js
         env:
           CONFIGURATION: ${{ matrix.configuration }}
           CI: true
       - name: Build via Windows
         if: runner.os == 'Windows'
         run: |
-          dotnet build
-          dotnet test
+          dotnet tool restore
+          dotnet fable .\test\Tests.fsproj -o .\test\build\ --run node .\test\build\Program.js
         env:
           CONFIGURATION: ${{ matrix.configuration }}
           CI: true
