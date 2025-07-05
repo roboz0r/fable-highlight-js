@@ -35,6 +35,7 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           dotnet tool restore
+          npm install
           dotnet fable ./test\Tests.fsproj -o ./test/build/ --run node ./test/build/Program.js
         env:
           CONFIGURATION: ${{ matrix.configuration }}
@@ -43,6 +44,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           dotnet tool restore
+          npm install
           dotnet fable .\test\Tests.fsproj -o .\test\build\ --run node .\test\build\Program.js
         env:
           CONFIGURATION: ${{ matrix.configuration }}
