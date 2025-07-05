@@ -7,4 +7,9 @@
     <PackageVersion Include="Fable.Core" Version="4.5.0" />
     <PackageVersion Include="Fable.Package.SDK" Version="1.3.2" />
   </ItemGroup>
+  <ItemGroup Label="Test" Condition="'$(IsTestProject)' == 'true'">
+    <PackageVersion Include="Fable.Pyxpecto" Version="1.3.0" />
+    <PackageVersion Include="YoloDev.Expecto.TestSdk" Version="0.15.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+  </ItemGroup>
 </Project>
