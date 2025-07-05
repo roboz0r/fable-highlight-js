@@ -24,11 +24,18 @@ jobs:
         with:
           global-json-file: ./global.json
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '>=22.17.0'
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+
       - name: Build via Bash
         if: runner.os != 'Windows'
         run: |
           dotnet tool restore
-          dotnet fable .\test\Tests.fsproj -o .\test\build\ --run node .\test\build\Program.js
+          dotnet fable ./test\Tests.fsproj -o ./test/build/ --run node ./test/build/Program.js
         env:
           CONFIGURATION: ${{ matrix.configuration }}
           CI: true
