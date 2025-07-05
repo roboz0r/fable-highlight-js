@@ -36,7 +36,7 @@ jobs:
         run: |
           dotnet tool restore
           npm install
-          dotnet fable ./test\Tests.fsproj -o ./test/build/ --run node ./test/build/Program.js
+          dotnet fable ./test/Tests.fsproj -o ./test/build/ --run node ./test/build/Program.js
         env:
           CONFIGURATION: ${{ matrix.configuration }}
           CI: true
