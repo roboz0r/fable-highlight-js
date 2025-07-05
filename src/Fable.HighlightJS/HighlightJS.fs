@@ -53,7 +53,16 @@ module HighlightJS_private =
 
     type KeywordDict = Record<string, KeywordData>
 
+/// The default export of highlight.js with the full library with all languages registered.
 [<ImportDefault("highlight.js")>]
+let hljsAllLanguages: HLJSApi = jsNative
+
+/// The default export of highlight.js with only common languages registered.
+[<ImportDefault("highlight.js/lib/common")>]
+let hljsCommonLanguages: HLJSApi = jsNative
+
+/// The default export of highlight.js with no registered languages.
+[<ImportDefault("highlight.js/lib/core")>]
 let hljs: HLJSApi = jsNative
 
 [<AutoOpen>]
